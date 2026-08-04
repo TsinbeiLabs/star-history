@@ -37,7 +37,8 @@ const StarXYChart: React.FC<Props> = ({ classname = "", data, chartMode = "Date"
                         xTickLabelType: chartMode === "Date" ? "Date" : "Number",
                         envType: "browser",
                         useLogScale: useLogScale,
-                        legendPosition: legendPosition
+                        legendPosition: legendPosition,
+                        watermarkText: window.location.host
                     }
                 )
             }
