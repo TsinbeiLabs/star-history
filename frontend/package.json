@@ -7,8 +7,9 @@
     "packageManager": "pnpm@9.15.4",
     "scripts": {
         "generate:blog": "pnpm exec tsx scripts/generateBlogJson.mts",
-        "dev": "pnpm run generate:blog && next dev",
-        "build": "pnpm run generate:blog && next build && next-sitemap",
+        "generate:gh-data": "pnpm exec tsx scripts/ensureGhData.mts",
+        "dev": "pnpm run generate:gh-data && pnpm run generate:blog && next dev",
+        "build": "pnpm run generate:gh-data && pnpm run generate:blog && next build && next-sitemap",
         "start": "pnpm dlx serve out",
         "lint": "next lint",
         "prettier": "prettier --write ."

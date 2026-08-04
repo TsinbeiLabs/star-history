@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect, useRef } from "react"
 import StarXYChart from "./Charts/StarXYChart"
-import TokenSettingDialog from "./TokenSettingDialog"
 import GenerateEmbedCodeDialog from "./GenerateEmbedCodeDialog"
 import { SketchPuzzleIcon } from "./SketchIcons"
 import EmbedMarkdownSection from "./EmbedMarkdownSection"
@@ -33,7 +32,6 @@ interface State {
     >
     chartData: XYChartData | undefined
     isGeneratingImage: boolean
-    showSetTokenDialog: boolean
     showGenEmbedCodeDialog: boolean
     showEmbedCodeDialog: boolean
 }
@@ -53,7 +51,6 @@ function StarChartViewer({ compact = false }: StarChartViewerProps) {
         chartData: undefined,
         isGeneratingImage: false,
         showEmbedCodeDialog: false,
-        showSetTokenDialog: false,
         showGenEmbedCodeDialog: false,
     })
 
@@ -83,9 +80,7 @@ function StarChartViewer({ compact = false }: StarChartViewerProps) {
             } catch (error: any) {
                 toast.warn(error.message)
 
-                if (error.status === 401 || error.status === 403) {
-                    setState((prevState) => ({ ...prevState, showSetTokenDialog: true }))
-                } else if (error.status === 404 || error.status === 501) {
+                if (error.status === 404 || error.status === 501) {
                     store.actions.delRepo(error.repo)
                 }
             }
@@ -347,9 +342,6 @@ function StarChartViewer({ compact = false }: StarChartViewerProps) {
         fetchReposData(store.repos, state.chartMode)
     }, [state.chartMode, store.actions, store.repos, fetchReposData])
 
-    const handleSetTokenDialogClose = () => {
-        setState((prevState) => ({ ...prevState, showSetTokenDialog: false }))
-    }
     return (
         <>
             <div ref={containerElRef} className="relative w-full h-auto min-h-400px self-center max-w-3xl 2xl:max-w-4xl sm:p-4 pt-0">
@@ -406,13 +398,6 @@ function StarChartViewer({ compact = false }: StarChartViewerProps) {
                 )}
                 <div id="capture">{state.chartData && state.chartData.datasets.length > 0 && <StarXYChart classname={`w-full h-auto ${compact ? "" : "mt-6"}`} data={state.chartData} chartMode={state.chartMode} useLogScale={state.useLogScale} legendPosition={state.legendPosition} />}</div>
                 {/* ... rest of the JSX here */}
-                {state.showSetTokenDialog && (
-                    <TokenSettingDialog
-                        onClose={handleSetTokenDialogClose}
-                        show={state.showSetTokenDialog}
-                    />
-                )}
-
                 {state.showEmbedCodeDialog && <GenerateEmbedCodeDialog onClose={handleGenEmbedCodeDialogClose} show={state.showEmbedCodeDialog} />}
             </div>
 

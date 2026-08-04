@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import axios from "axios"
 import { SketchGitHubIcon } from "./SketchIcons"
+import api from "@shared/common/api"
 
 const GitHubStarButton = () => {
     const [starCount, setStarCount] = useState<number | null>(null)
@@ -8,13 +8,7 @@ const GitHubStarButton = () => {
     useEffect(() => {
         const getRepoStarCount = async () => {
             try {
-                const { data } = await axios.get(`https://api.github.com/repos/star-history/star-history`, {
-                    headers: {
-                        Accept: "application/vnd.github.v3.star+json",
-                        Authorization: ""
-                    }
-                })
-                setStarCount(data.stargazers_count)
+                setStarCount(await api.getRepoStargazersCount("star-history/star-history"))
             } catch (error) {
                 console.error('Failed to fetch GitHub star', error)
             }

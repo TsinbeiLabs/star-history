@@ -134,3 +134,7 @@ cd backend && pnpm i && pnpm dev
 ```
 
 The API server will be running on http://localhost:8080.
+
+### Self-hosting on Vercel
+
+This fork supports a server-side `GITHUB_TOKEN` and repository allowlist for private Vercel deployments. See [SELF_HOSTING.md](./SELF_HOSTING.md) for configuration and deployment instructions.

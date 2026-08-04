@@ -26,7 +26,7 @@ export const getReposStarData = async (repos: string[], token = "", maxRequestAm
                 message = `Repo ${repo} not found`
                 status = 404
             } else if (error?.response?.status === 403) {
-                message = "GitHub API rate limit exceeded"
+                message = error.response?.data?.message || "GitHub API rate limit exceeded"
                 status = 403
             } else if (error?.response?.status === 401) {
                 message = "Access Token Unauthorized"
@@ -89,7 +89,7 @@ export const getRepoData = async (repos: string[], token = "", maxRequestAmount 
                 message = `Repo ${repo} not found`
                 status = 404
             } else if (error?.response?.status === 403) {
-                message = "GitHub API rate limit exceeded"
+                message = error.response?.data?.message || "GitHub API rate limit exceeded"
                 status = 403
             } else if (error?.response?.status === 401) {
                 message = "Access Token Unauthorized"

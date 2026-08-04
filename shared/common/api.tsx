@@ -4,28 +4,48 @@ import utils from "./utils"
 const API_PER_PAGE = 100  // GitHub API max items per request
 const REQUEST_TIMEOUT_MS = 15000  // 15s timeout for GitHub API calls
 
+function getApiUrl(repo: string, resource: "repo" | "stargazers" | "owner", page?: number) {
+    if (typeof window === "undefined") {
+        if (resource === "repo") {
+            return `https://api.github.com/repos/${repo}`
+        }
+        if (resource === "owner") {
+            return `https://api.github.com/users/${repo.split("/")[0]}`
+        }
+
+        const pageQuery = page === undefined ? "" : `&page=${page}`
+        return `https://api.github.com/repos/${repo}/stargazers?per_page=${API_PER_PAGE}${pageQuery}`
+    }
+
+    const params = new URLSearchParams({ repo, resource })
+    if (page !== undefined) {
+        params.set("page", String(page))
+    }
+    return `/api/github?${params.toString()}`
+}
+
+function getHeaders(token?: string) {
+    if (typeof window !== "undefined") {
+        return undefined
+    }
+
+    return {
+        Accept: "application/vnd.github.v3.star+json",
+        Authorization: token ? `token ${token}` : ""
+    }
+}
+
 namespace api {
     export async function getRepoStargazers(repo: string, token?: string, page?: number) {
-        let url = `https://api.github.com/repos/${repo}/stargazers?per_page=${API_PER_PAGE}`
-
-        if (page !== undefined) {
-            url = `${url}&page=${page}`
-        }
-        return axios.get(url, {
-            headers: {
-                Accept: "application/vnd.github.v3.star+json",
-                Authorization: token ? `token ${token}` : ""
-            },
+        return axios.get(getApiUrl(repo, "stargazers", page), {
+            headers: getHeaders(token),
             timeout: REQUEST_TIMEOUT_MS,
         })
     }
 
     export async function getRepoStargazersCount(repo: string, token?: string) {
-        const { data } = await axios.get(`https://api.github.com/repos/${repo}`, {
-            headers: {
-                Accept: "application/vnd.github.v3.star+json",
-                Authorization: token ? `token ${token}` : ""
-            },
+        const { data } = await axios.get(getApiUrl(repo, "repo"), {
+            headers: getHeaders(token),
             timeout: REQUEST_TIMEOUT_MS,
         })
 
@@ -115,12 +135,8 @@ namespace api {
     }
 
     export async function getRepoLogoUrl(repo: string, token?: string): Promise<string> {
-        const owner = repo.split("/")[0]
-        const { data } = await axios.get(`https://api.github.com/users/${owner}`, {
-            headers: {
-                Accept: "application/vnd.github.v3.star+json",
-                Authorization: token ? `token ${token}` : ""
-            },
+        const { data } = await axios.get(getApiUrl(repo, "owner"), {
+            headers: getHeaders(token),
             timeout: REQUEST_TIMEOUT_MS,
         })
 
