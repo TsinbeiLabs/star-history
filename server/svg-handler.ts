@@ -4,6 +4,7 @@ import { getGitHubConfig, isRepoAllowed, isValidRepo } from "./github-config"
 interface VercelRequest {
     method?: string
     query: Record<string, string | string[] | undefined>
+    headers?: Record<string, string | string[] | undefined>
 }
 
 interface VercelResponse {
@@ -20,6 +21,14 @@ const CHART_WIDTHS: Record<string, number> = {
 
 function getQueryValue(value: string | string[] | undefined): string {
     return Array.isArray(value) ? value[0] || "" : value || ""
+}
+
+function getRequestHost(req: VercelRequest): string {
+    const headers = req.headers || {}
+    return getQueryValue(headers["x-forwarded-host"] || headers.host)
+        .split(",")[0]
+        .trim()
+        .replace(/[^a-z0-9.:[\]-]/gi, "") || "star-history.com"
 }
 
 async function toDataUrl(url: string): Promise<string> {
@@ -77,7 +86,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             repo.logoUrl = await toDataUrl(repo.logoUrl)
         }))
 
-        const output = renderSvg(repoData, { type, theme, transparent, useLogScale, legendPosition, width })
+        const output = renderSvg(repoData, {
+            type,
+            theme,
+            transparent,
+            useLogScale,
+            legendPosition,
+            width,
+            watermarkText: getRequestHost(req),
+        })
         res.setHeader("Content-Type", "image/svg+xml; charset=utf-8")
         res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800")
         return res.status(200).send(output)

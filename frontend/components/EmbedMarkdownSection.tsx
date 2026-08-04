@@ -3,15 +3,19 @@ import { useAppStore } from "../store"
 import utils from "@shared/common/utils"
 import toast from "../helpers/toast"
 import { SketchStarIcon } from "./SketchIcons"
-import { API_URL } from "../helpers/consts"
 
 const EmbedChart: React.FC = () => {
     const store = useAppStore()
     const [singleRepo, setSingleRepo] = useState<string | null>(null)
+    const [origin, setOrigin] = useState("")
 
     useEffect(() => {
         setSingleRepo(store.repos.length === 1 ? store.repos[0] : null)
     }, [store.repos])
+
+    useEffect(() => {
+        setOrigin(window.location.origin)
+    }, [])
 
     const repoText = singleRepo ? singleRepo.split("/")[1] : "your repository's"
 
@@ -24,9 +28,9 @@ const EmbedChart: React.FC = () => {
         return params
     }
 
-    const embedCode = `## Star History\n\n[![Star History Chart](${API_URL}/svg?${buildQueryParams()})](${typeof window !== "undefined" ? window.location.href : ""})`
+    const embedCode = `## Star History\n\n[![Star History Chart](${origin}/svg?${buildQueryParams()})](${typeof window !== "undefined" ? window.location.href : ""})`
 
-    const embedDarkModeCode = `## Star History\n\n<a href="${typeof window !== "undefined" ? window.location.href : ""}">\n <picture>\n   <source media="(prefers-color-scheme: dark)" srcset="${API_URL}/svg?${buildQueryParams("dark")}" />\n   <source media="(prefers-color-scheme: light)" srcset="${API_URL}/svg?${buildQueryParams()}" />\n   <img alt="Star History Chart" src="${API_URL}/svg?${buildQueryParams()}" />\n </picture>\n</a>`
+    const embedDarkModeCode = `## Star History\n\n<a href="${typeof window !== "undefined" ? window.location.href : ""}">\n <picture>\n   <source media="(prefers-color-scheme: dark)" srcset="${origin}/svg?${buildQueryParams("dark")}" />\n   <source media="(prefers-color-scheme: light)" srcset="${origin}/svg?${buildQueryParams()}" />\n   <img alt="Star History Chart" src="${origin}/svg?${buildQueryParams()}" />\n </picture>\n</a>`
 
     const handleCopyBtnClick = () => {
         utils.copyTextToClipboard(embedCode)

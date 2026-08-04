@@ -17,11 +17,13 @@ test("renders an embeddable star history SVG", () => {
         useLogScale: false,
         legendPosition: "top-left",
         width: 800,
+        watermarkText: "star-history.tsinbei.com",
     })
 
     assert.match(svg, /^<svg/)
     assert.match(svg, /Star History/)
     assert.match(svg, /TsinbeiLabs\/example/)
     assert.match(svg, /#0d1117/)
+    assert.match(svg, /star-history\.tsinbei\.com/)
     assert.match(svg, /width="800"/)
 })

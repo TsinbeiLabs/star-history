@@ -11,6 +11,7 @@ interface SvgOptions {
     useLogScale: boolean
     legendPosition: LegendPosition
     width: number
+    watermarkText?: string
 }
 
 function fixJsdomSvgCasing(svg: string): string {
@@ -44,6 +45,7 @@ export function renderSvg(repoData: RepoData[], options: SvgOptions): string {
         chartWidth: options.width,
         useLogScale: options.useLogScale,
         legendPosition: options.legendPosition,
+        watermarkText: options.watermarkText,
     })
 
     return optimize(fixJsdomSvgCasing(svg.outerHTML), { multipass: true }).data

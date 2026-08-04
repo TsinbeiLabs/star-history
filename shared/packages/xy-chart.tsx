@@ -64,6 +64,7 @@ export interface XYChartOptions {
     chartWidth?: number
     useLogScale?: boolean
     legendPosition?: LegendPosition
+    watermarkText?: string
 }
 
 const getDefaultOptions = (transparent: boolean): XYChartOptions => {
@@ -217,7 +218,7 @@ const XYChart = (
 
     const svgChart = chart.append("g").attr("pointer-events", "all")
 
-    drawWatermark(svgChart, chartWidth, chartHeight);
+    drawWatermark(svgChart, chartWidth, chartHeight, options.watermarkText);
 
     if (title) {
         if (uniq(datasets.map((d) => d.label.split("/")[0])).length === 1) {
