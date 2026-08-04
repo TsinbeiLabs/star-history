@@ -24,7 +24,7 @@ const GenerateEmbedCodeDialog: React.FC<GenerateEmbedCodeDialogProps> = ({ onClo
         const logScaleParam = store.useLogScale ? "&logscale" : ""
         const legendParam = `&legend=${store.legendPosition}`
         setState({
-            embedCode: `<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="${window.location.origin}/embed#${store.repos.join("&")}&${chartModeParam}${logScaleParam}${legendParam}" frameBorder="0"></iframe>`
+            embedCode: `<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="${window.location.origin}/#${store.repos.join("&")}&${chartModeParam}${logScaleParam}${legendParam}" frameBorder="0"></iframe>`
         })
     }, [store.repos, store.chartMode, store.useLogScale, store.legendPosition])
 
