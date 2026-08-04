@@ -2,11 +2,11 @@
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "framework": null,
     "installCommand": "corepack enable && pnpm install --frozen-lockfile && pnpm --dir frontend install --frozen-lockfile",
-    "buildCommand": "pnpm --dir frontend build",
+    "buildCommand": "pnpm build:api && pnpm --dir frontend build",
     "outputDirectory": "frontend/out",
     "cleanUrls": true,
     "functions": {
-        "api/svg.ts": {
+        "api/svg.js": {
             "maxDuration": 60
         }
     },

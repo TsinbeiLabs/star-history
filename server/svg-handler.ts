@@ -1,5 +1,5 @@
 import type { ChartMode, LegendPosition } from "../shared/types/chart"
-import { getGitHubConfig, isRepoAllowed, isValidRepo } from "../server/github-config"
+import { getGitHubConfig, isRepoAllowed, isValidRepo } from "./github-config"
 
 interface VercelRequest {
     method?: string
@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
         const [{ getRepoData }, { renderSvg }] = await Promise.all([
             import("../shared/common/chart"),
-            import("../server/svg-render"),
+            import("./svg-render"),
         ])
         const repoData = await getRepoData(repos, token, 15)
         await Promise.all(repoData.map(async (repo) => {

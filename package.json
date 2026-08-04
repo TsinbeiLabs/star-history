@@ -2,6 +2,9 @@
   "private": true,
   "packageManager": "pnpm@10.28.2",
   "description": "Shared dependencies for star-history shared/ code",
+  "scripts": {
+    "build:api": "esbuild server/svg-handler.ts --bundle --platform=node --target=node20 --format=cjs --packages=external --outfile=api/svg.js"
+  },
   "dependencies": {
     "axios": "^1.8.2",
     "d3-axis": "^2.1.0",
@@ -19,6 +22,7 @@
     "@types/d3-selection": "^2.0.0",
     "@types/d3-shape": "^2.1.0",
     "@types/jsdom": "20.0.0",
-    "@types/lodash": "^4.14.200"
+    "@types/lodash": "^4.14.200",
+    "esbuild": "^0.27.3"
   }
 }
