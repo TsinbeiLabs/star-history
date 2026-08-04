@@ -1,5 +1,5 @@
 module.exports = {
-    siteUrl: 'https://www.star-history.com',
+    siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || 'https://star-history.tsinbei.com').replace(/\/$/, ''),
     outDir: 'out',
     generateRobotsTxt: true,
     robotsTxtOptions: {
@@ -9,4 +9,3 @@ module.exports = {
         ],
     },
 };
-  

@@ -6,6 +6,7 @@ import Head from "next/head"
 import Script from "next/script"
 import ErrorBoundary from "../components/ErrorBoundary"
 import { AppStateProvider } from "../store"
+import { plausibleDomain } from "../helpers/branding"
 
 export type NextPageWithLayout = NextPage & {
     getLayout?: (_page: React.ReactElement) => React.ReactNode
@@ -23,7 +24,9 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
             <Head>
                 <link rel="icon" href="/assets/favicon.ico" />
             </Head>
-            <Script defer data-domain="star-history.com" src="https://plausible.io/js/script.js" strategy="afterInteractive" />
+            {plausibleDomain && (
+                <Script defer data-domain={plausibleDomain} src="https://plausible.io/js/script.js" strategy="afterInteractive" />
+            )}
             <AppStateProvider>
                 <ErrorBoundary>
                     {getLayout(<Component {...pageProps} />)}

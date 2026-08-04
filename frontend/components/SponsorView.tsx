@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { sponsorList, randomSponsors } from "../helpers/sponsor"
 import Link from "next/link"
 import { WobblyClipDefs } from "./SketchIcons"
+import { showSponsors } from "../helpers/branding"
 
 type Sponsor = {
     className?: string
@@ -17,7 +18,7 @@ const BytebaseBanner: React.FC<Sponsor> = ({ className }) => {
 
     const sponsor = sponsors[0]
 
-    if (!sponsor) {
+    if (!showSponsors || !sponsor) {
         return null // or a loading state if needed
     }
 

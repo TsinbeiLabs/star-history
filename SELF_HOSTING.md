@@ -12,6 +12,20 @@ Configure these variables in Vercel for Production, Preview, and Development as 
 | --- | --- | --- |
 | `GITHUB_TOKEN` | Yes | A GitHub fine-grained or classic personal access token. Public repository metadata only requires read access. |
 | `ALLOWED_REPOS` | Yes | Comma or whitespace separated allowlist. Supports exact repositories such as `TsinbeiLabs/star-history`, organization or user wildcards such as `TsinbeiLabs/*`, and explicit global access with `*`. |
+| `NEXT_PUBLIC_SITE_URL` | No | Public deployment origin used for canonical metadata and the sitemap. Defaults to `https://star-history.tsinbei.com`. |
+| `NEXT_PUBLIC_SHOW_SPONSORS` | No | Set to `true` to show the upstream sponsor sidebar and banners. Defaults to `false`. |
+| `NEXT_PUBLIC_SHOW_HEADER` | No | Set to `true` to render the top navigation header. Defaults to `false`. |
+| `NEXT_PUBLIC_ENABLE_BLOG` | No | Set to `true` to build `/blog` pages and show blog links. Defaults to `false`. |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | No | Plausible Analytics domain. The analytics script is not loaded when this is empty. |
+| `NEXT_PUBLIC_FOOTER_TAGLINE` | No | Footer description. Defaults to `GitHub star history graph`. |
+| `NEXT_PUBLIC_MAINTAINER_NAME` | No | Footer maintainer name. Defaults to `Tsinbei Labs`. Set an empty value only by changing the code default. |
+| `NEXT_PUBLIC_MAINTAINER_URL` | No | Footer maintainer link. Defaults to the TsinbeiLabs GitHub organization. |
+| `NEXT_PUBLIC_ORIGINAL_AUTHOR_NAME` | No | Optional original author attribution. Hidden when empty. |
+| `NEXT_PUBLIC_ORIGINAL_AUTHOR_URL` | No | Optional original author link. |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | No | Optional footer email icon. Hidden when empty. |
+| `NEXT_PUBLIC_X_URL` | No | Optional footer X/Twitter icon. Hidden when empty. |
+| `NEXT_PUBLIC_RSS_URL` | No | Optional footer RSS icon. Hidden when empty. |
+| `NEXT_PUBLIC_FOOTER_LINKS` | No | JSON array of custom footer links. Hidden when empty. |
 
 Do not prefix the token with `NEXT_PUBLIC_`. Public Next.js variables are included in browser assets.
 
@@ -26,6 +40,36 @@ Use a token that can only read public repository metadata unless the entire Verc
 5. Deploy the project.
 
 The build creates empty fallback ranking data when `gh/data` has not been generated. This keeps clean forks deployable; it only hides the optional weekly ranking, leaderboard, pyramid, and autocomplete datasets.
+
+## Branding and sponsors
+
+Self-hosted deployments hide Bytebase, Dify, SerpApi, pgconsole, pgschema, DBHub, and the upstream sponsor contact by default. To restore the upstream sponsor areas, set:
+
+```text
+NEXT_PUBLIC_SHOW_SPONSORS=true
+```
+
+The top header and blog are also disabled by default. Enable either feature independently:
+
+```text
+NEXT_PUBLIC_SHOW_HEADER=true
+NEXT_PUBLIC_ENABLE_BLOG=true
+```
+
+When the blog is disabled, the build temporarily removes `pages/blog`, `public/blog`, `public/assets/blog`, and the generated blog index before `next build`, then restores the source afterward. No blog HTML, page bundles, Markdown, or blog image assets are included in `frontend/out`.
+
+Footer links use a JSON array. The optional `icon` may be an absolute URL or a path under `frontend/public`:
+
+```json
+[
+  {"label":"Tsinbei Labs","url":"https://github.com/TsinbeiLabs"},
+  {"label":"Website","url":"https://tsinbei.com","icon":"/assets/logo-icon.png"}
+]
+```
+
+Because `NEXT_PUBLIC_*` values are compiled into the static frontend, redeploy after changing any branding variable.
+
+Set `NEXT_PUBLIC_SITE_URL` to the deployment origin without a path. Leave `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` empty unless the deployment has its own Plausible Analytics site.
 
 Example private deployment configuration:
 

@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Blog } from "helpers/types/blog"
 import blogs from "helpers/blog.json"
 import { SketchMailboxIcon } from "./SketchIcons"
+import { enableBlog } from "../helpers/branding"
 
 interface State {
     repo: string
@@ -33,6 +34,7 @@ export default function RepoInputer({ setChartVisibility }: RepoInputerProps) {
     const inputElRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
+        if (!enableBlog) return
         const latest = (blogs as Blog[]).find(blog => blog.featured);
         if (latest) {
             setState(prev => ({ ...prev, latestBlog: latest }));
@@ -232,7 +234,7 @@ export default function RepoInputer({ setChartVisibility }: RepoInputerProps) {
 
     return (
         <div className="w-full px-3 shrink-0 flex flex-col justify-start items-center">
-            <div className={`w-auto mx-auto mt-6 mb-2 flex flex-row justify-center items-center flex-wrap ${state.latestBlog ? "" : "invisible"}`}>
+            {enableBlog && <div className={`w-auto mx-auto mt-6 mb-2 flex flex-row justify-center items-center flex-wrap ${state.latestBlog ? "" : "invisible"}`}>
                 <span className="px-2 -mt-px leading-7 rounded mr-2 text-sm accent-badge font-medium">
                     {state.latestBlog?.publishedDate ? (() => {
                         const dateStr = state.latestBlog.publishedDate;
@@ -252,7 +254,7 @@ export default function RepoInputer({ setChartVisibility }: RepoInputerProps) {
                 >
                    <SketchMailboxIcon /> Subscribe
                 </a>
-            </div>
+            </div>}
             <div className="w-auto sm:w-full grow max-w-3xl 2xl:max-w-4xl mt-4 flex flex-row justify-center items-center shadow-inner border border-solid border-black rounded">
                 <input
                     ref={inputElRef}

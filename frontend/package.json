@@ -9,7 +9,7 @@
         "generate:blog": "pnpm exec tsx scripts/generateBlogJson.mts",
         "generate:gh-data": "pnpm exec tsx scripts/ensureGhData.mts",
         "dev": "pnpm run generate:gh-data && pnpm run generate:blog && next dev",
-        "build": "pnpm run generate:gh-data && pnpm run generate:blog && next build && next-sitemap",
+        "build": "pnpm run generate:gh-data && pnpm run generate:blog && pnpm exec tsx scripts/buildFrontend.mts",
         "start": "pnpm dlx serve out",
         "lint": "next lint",
         "prettier": "prettier --write ."

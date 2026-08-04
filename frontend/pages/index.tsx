@@ -8,6 +8,7 @@ import type { NextPage } from "next"
 import StarChartViewer from "../components/StarChartViewer"
 import Head from "next/head"
 import { SITE_URL } from "../helpers/consts"
+import { showSponsors } from "../helpers/branding"
 
 const Index: NextPage = () => {
     const [isChartVisible, setChartVisibility] = useState(false) // Start with false since chart is not visible by default
@@ -41,7 +42,7 @@ const Index: NextPage = () => {
             <div className="relative w-full h-auto min-h-screen flex flex-col overflow-x-hidden">
                 <Header />
                 <div className="w-full h-auto grow flex flex-row justify-center">
-                    <div className="w-full px-4 h-auto grow lg:grid lg:grid-cols-[1fr_288px] xl:grid-cols-[240px_1fr_288px] lg:gap-8 xl:gap-24">
+                    <div className={`w-full px-4 h-auto grow lg:grid lg:gap-8 xl:gap-24 ${showSponsors ? "lg:grid-cols-[1fr_288px] xl:grid-cols-[240px_1fr_288px]" : "lg:grid-cols-1 xl:grid-cols-[240px_1fr]"}`}>
                         <div className="hidden xl:block">
                             <LeftSidebar />
                         </div>
@@ -51,9 +52,7 @@ const Index: NextPage = () => {
                             {isChartVisible && <StarChartViewer />}
                         </div>
 
-                        <div className="hidden lg:block">
-                            <RightSidebar />
-                        </div>
+                        {showSponsors && <div className="hidden lg:block"><RightSidebar /></div>}
                     </div>
                 </div>
 

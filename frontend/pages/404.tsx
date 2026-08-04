@@ -4,6 +4,7 @@ import type { GetStaticProps, NextPage } from "next"
 import { formatNumber } from "../helpers/format"
 import { loadRepos } from "@shared/common/repo-data"
 import PageShell from "../components/PageShell"
+import { enableBlog } from "../helpers/branding"
 
 interface NotFoundProps {
     minStars: number
@@ -37,7 +38,7 @@ const NotFound: NextPage<NotFoundProps> = ({ minStars }) => {
         )
     }
 
-    if (isBlogPath) {
+    if (enableBlog && isBlogPath) {
         return (
             <div className="relative w-full min-h-screen flex flex-col justify-center items-center">
                 <p className="text-center leading-8 text-lg text-dark font-medium">Oops! Article not found.</p>
@@ -55,7 +56,7 @@ const NotFound: NextPage<NotFoundProps> = ({ minStars }) => {
             <p className="text-lg font-medium">404, Not Found.</p>
             <p className="text-sm text-neutral-500 mt-2">
                 <Link href="/" className="link-action">
-                    Go to star-history.com
+                    Go to home
                 </Link>
             </p>
         </div>

@@ -8,6 +8,7 @@ import blogData from "helpers/blog.json"
 import { NextPageWithLayout } from "pages/_app"
 import { SketchMailboxIcon } from "../../components/SketchIcons"
 import { NEWSLETTER_URL } from "../../helpers/consts"
+import { showSponsors } from "../../helpers/branding"
 
 interface Blog {
     slug: string
@@ -35,7 +36,7 @@ const BlogPage: NextPageWithLayout = () => {
             <div className="relative w-full h-auto min-h-screen flex flex-col overflow-x-hidden">
                 <Header />
                 <div className="w-full h-auto grow flex flex-row justify-center">
-                    <div className="w-full px-4 h-auto grow lg:grid lg:grid-cols-[1fr_288px] lg:gap-8">
+                    <div className={`w-full px-4 h-auto grow lg:grid lg:gap-8 ${showSponsors ? "lg:grid-cols-[1fr_288px]" : "lg:grid-cols-1"}`}>
                         <div className="w-full flex flex-col justify-start">
                             <section className="w-full h-auto flex flex-col justify-start items-start">
                             <div className="mt-8 px-2 py-6 w-full flex items-baseline gap-4">
@@ -79,11 +80,9 @@ const BlogPage: NextPageWithLayout = () => {
                                 </div>
                             )}
                         </section>
-                        <BytebaseBanner className="mb-8 hidden lg:block" />
+                        {showSponsors && <BytebaseBanner className="mb-8 hidden lg:block" />}
                         </div>
-                        <div className="hidden lg:block">
-                            <RightSidebar />
-                        </div>
+                        {showSponsors && <div className="hidden lg:block"><RightSidebar /></div>}
                     </div>
                 </div>
                 <Footer />

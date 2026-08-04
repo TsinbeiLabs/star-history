@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { sponsorList, randomSponsors } from "../helpers/sponsor"
 import { SketchMailboxIcon, WobblyClipDefs } from "./SketchIcons"
+import { showSponsors } from "../helpers/branding"
 
 const RightSidebar: React.FC = () => {
     const [sponsors, setSponsors] = useState(sponsorList)
@@ -9,6 +10,8 @@ const RightSidebar: React.FC = () => {
     useEffect(() => {
         setSponsors(randomSponsors)
     }, [])
+
+    if (!showSponsors) return null
 
     return (
         <div className="sidebar-sticky items-start">
