@@ -2,6 +2,8 @@
 
 This fork routes browser GitHub API requests through a Vercel Function. The GitHub token remains on the server, and a repository allowlist prevents public visitors from spending the token on arbitrary repositories.
 
+The repository pins pnpm 10.28.2 in both package manifests so Vercel uses the same package manager version that generated the version 9 lockfiles.
+
 ## Environment variables
 
 Configure these variables in Vercel for Production, Preview, and Development as needed:

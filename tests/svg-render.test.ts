@@ -1,6 +1,6 @@
 import assert from "node:assert/strict"
 import test from "node:test"
-import { renderSvg } from "../api/svg"
+import { renderSvg } from "../server/svg-render"
 
 test("renders an embeddable star history SVG", () => {
     const svg = renderSvg([{
