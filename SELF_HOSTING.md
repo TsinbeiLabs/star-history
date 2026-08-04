@@ -32,6 +32,12 @@ GITHUB_TOKEN=github_pat_...
 ALLOWED_REPOS=TsinbeiLabs/*,star-history/star-history
 ```
 
+Every repository used by the web chart or `/svg` endpoint must match this allowlist. For example, `ClosedWHU/WHU-Calendar` requires:
+
+```text
+ALLOWED_REPOS=TsinbeiLabs/*,ClosedWHU/WHU-Calendar
+```
+
 `star-history/star-history` is included in the example because the header displays the upstream project's current star count. It can be omitted; only that count will fail to load.
 
 ## Security behavior
@@ -41,3 +47,4 @@ ALLOWED_REPOS=TsinbeiLabs/*,star-history/star-history
 - Missing token or allowlist configuration fails closed with HTTP 500.
 - Successful GitHub responses are cached by Vercel for 5 minutes and may be served stale for up to 1 hour while revalidating.
 - Only the repository metadata, repository stargazers, and repository owner endpoints required by the chart are exposed.
+- `/svg?repos=owner/repo&type=date` generates an embeddable SVG using the same token and repository allowlist.

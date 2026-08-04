@@ -1,3 +1,5 @@
+import { getGitHubConfig, isRepoAllowed, isValidRepo } from "../server/github-config"
+
 interface VercelRequest {
     method?: string
     query: Record<string, string | string[] | undefined>
@@ -11,26 +13,9 @@ interface VercelResponse {
 }
 
 const GITHUB_API_URL = "https://api.github.com"
-const REPO_PATTERN = /^[a-z0-9_.-]+\/[a-z0-9_.-]+$/i
 
 function getQueryValue(value: string | string[] | undefined): string {
     return Array.isArray(value) ? value[0] || "" : value || ""
-}
-
-function parseAllowedRepos(value: string | undefined): string[] {
-    return (value || "")
-        .split(/[\s,]+/)
-        .map((repo) => repo.trim().toLowerCase())
-        .filter(Boolean)
-}
-
-function isRepoAllowed(repo: string, allowedRepos: string[]): boolean {
-    const normalizedRepo = repo.toLowerCase()
-    const owner = normalizedRepo.split("/")[0]
-
-    return allowedRepos.includes("*")
-        || allowedRepos.includes(normalizedRepo)
-        || allowedRepos.includes(`${owner}/*`)
 }
 
 function copyHeader(response: Response, res: VercelResponse, name: string) {
@@ -46,8 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ message: "Method not allowed" })
     }
 
-    const token = process.env.GITHUB_TOKEN
-    const allowedRepos = parseAllowedRepos(process.env.ALLOWED_REPOS)
+    const { token, allowedRepos } = getGitHubConfig()
 
     if (!token) {
         return res.status(500).json({ message: "GITHUB_TOKEN is not configured" })
@@ -59,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const repo = getQueryValue(req.query.repo).trim()
     const resource = getQueryValue(req.query.resource) || "repo"
 
-    if (!REPO_PATTERN.test(repo)) {
+    if (!isValidRepo(repo)) {
         return res.status(400).json({ message: "Invalid repository" })
     }
     if (!isRepoAllowed(repo, allowedRepos)) {

@@ -4,5 +4,16 @@
     "installCommand": "corepack enable && pnpm install --frozen-lockfile && pnpm --dir frontend install --frozen-lockfile",
     "buildCommand": "pnpm --dir frontend build",
     "outputDirectory": "frontend/out",
-    "cleanUrls": true
+    "cleanUrls": true,
+    "functions": {
+        "api/svg.ts": {
+            "maxDuration": 60
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/svg",
+            "destination": "/api/svg"
+        }
+    ]
 }
