@@ -140,7 +140,7 @@ const RepoPage: NextPage<RepoPageProps> = ({ repo, minStars, prevRepo, nextRepo 
         if (!hasAttributes) return null
         const svg = renderRadarSvg(repo.attributes, 400)
         return `data:image/svg+xml;base64,${btoa(svg)}`
-    }, [repo.attributes])
+    }, [hasAttributes, repo.attributes])
 
     // Build the shared VDOM layout — same code path as the /svg?style=landscape1 endpoint
     const cardVNode = useMemo(() => buildLandscape1({
@@ -156,7 +156,7 @@ const RepoPage: NextPage<RepoPageProps> = ({ repo, minStars, prevRepo, nextRepo 
         attributes: hasAttributes ? repo.attributes : null,
         rank: repo.rank,
         logoBase64: "/assets/logo-icon.png",
-    }), [repo, radarSvgBase64])
+    }), [hasAttributes, radarSvgBase64, repo])
 
     // Scale the native 1200×630 card to fit the container
     useEffect(() => {

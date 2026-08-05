@@ -1,4 +1,5 @@
 import { useState } from "react"
+/* eslint-disable @next/next/no-img-element -- external avatars and animated fallback assets are intentionally unoptimized */
 import Link from "next/link"
 import leaderboardData from "@gh-data/leaderboard.json"
 import weeklyRankingData from "@gh-data/weekly-ranking.json"

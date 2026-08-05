@@ -1,4 +1,3 @@
-import Link from "next/link"
 import NavInput from "./NavInput"
 
 export default function PageShell({ header, children }: { header?: React.ReactNode; children: React.ReactNode }) {

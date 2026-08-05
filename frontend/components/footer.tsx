@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- custom footer icons may be arbitrary external URLs */
 import { FaEnvelope, FaRss } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
 import { footerBranding } from "../helpers/branding"

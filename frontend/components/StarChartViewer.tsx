@@ -145,6 +145,8 @@ function StarChartViewer({ compact = false }: StarChartViewerProps) {
         return () => {
             window.removeEventListener("hashchange", handleHashChange);
         };
+    // fetchReposData intentionally follows repo and chart-mode changes here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [store.repos, state.chartMode]);
     
     

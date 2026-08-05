@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- the static export does not use Next.js image optimization */
 import React, { useState } from "react";
 import GitHubStarButton from "./GitHubStarButton";
 import Link from "next/link";

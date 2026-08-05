@@ -61,17 +61,19 @@ export default function RepoInputer({ setChartVisibility }: RepoInputerProps) {
 
     // Sync local state when store repos change (e.g. from sidebar click)
     useEffect(() => {
-        const localNames = state.repos.map(r => r.name)
-        const newRepos = store.state.repos.filter(name => !localNames.includes(name))
-        if (newRepos.length > 0) {
-            setState(prev => ({
+        setState(prev => {
+            const localNames = prev.repos.map(r => r.name)
+            const newRepos = store.state.repos.filter(name => !localNames.includes(name))
+            if (newRepos.length === 0) return prev
+
+            return {
                 ...prev,
                 repos: [
                     ...prev.repos,
                     ...newRepos.map(name => ({ name, visible: true }))
                 ]
-            }))
-        }
+            }
+        })
     }, [store.state.repos])
 
     useEffect(() => {
