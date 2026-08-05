@@ -37,4 +37,5 @@ test("renders an embeddable star history SVG", () => {
     assert.ok(Number.isFinite(longDomainIconX))
     assert.ok(Number.isFinite(shortDomainIconX))
     assert.ok(longDomainIconX < shortDomainIconX)
+    assert.ok(longDomainIconX > 510)
 })
