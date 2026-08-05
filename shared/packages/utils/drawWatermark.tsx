@@ -8,7 +8,7 @@ const estimateTextWidth = (text: string) => (Array.from(text).reduce((width, cha
     if (/[ilI1.,:|\[\]]/.test(character)) return width + 4.5
     if (/[-_]/.test(character)) return width + 6
     return width + 8.5
-}, 0) + Math.max(0, text.length - 1) * 0.32) * 0.82
+}, 0) + Math.max(0, text.length - 1) * 0.32) * 0.94
 
 export const drawWatermark = (selection: D3Selection, chartWidth: number, chartHeight: number, text = "star-history.com") => {
     const textRight = chartWidth + 10
