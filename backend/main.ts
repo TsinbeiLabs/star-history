@@ -212,7 +212,7 @@ const startServer = async () => {
 
         // Fetch all logos in parallel (bounded by MAX_REPOS_PER_REQUEST)
         await Promise.all(data.map(async (d) => {
-          d.logoUrl = await getBase64Image(`${d.logoUrl}&size=22`);
+          d.logoUrl = await getBase64Image(`${d.logoUrl}&size=64`);
           cache.set(d.repo, {
             starRecords: d.starRecords,
             starAmount: d.starRecords[d.starRecords.length - 1].count,

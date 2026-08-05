@@ -33,7 +33,7 @@ function getRequestHost(req: VercelRequest): string {
 
 async function toDataUrl(url: string): Promise<string> {
     try {
-        const response = await fetch(`${url}${url.includes("?") ? "&" : "?"}size=22`, {
+        const response = await fetch(`${url}${url.includes("?") ? "&" : "?"}size=64`, {
             signal: AbortSignal.timeout(10000),
         })
         if (!response.ok) return ""
